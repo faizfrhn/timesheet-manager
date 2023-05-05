@@ -30,13 +30,15 @@ class TimesheetResource extends Resource
                     ->schema([
                         Hidden::make('user_id'),
                         Forms\Components\DatePicker::make('date_worked')->maxDate(now())
-                        ->unique(callback: function (Unique $rule, callable $get) { 
-                            return $rule
-                                    ->where('date_worked', $get('date_worked'))
-                                    ->where('user_id', auth()->id());
-                            }, ignoreRecord: true)
-                        ->required(),
-                        Forms\Components\TextInput::make('hours')->numeric()->minValue(0)->maxValue(24)->required(),
+                            ->unique(callback: function (Unique $rule, callable $get) { 
+                                return $rule
+                                        ->where('date_worked', $get('date_worked'))
+                                        ->where('user_id', auth()->id());
+                                }, ignoreRecord: true)
+                            ->required()
+                            ->disabled(fn (Timesheet $record) => $record->where(['status', '!=', 'Draft'])),
+                        Forms\Components\TextInput::make('hours')->numeric()->minValue(0)->maxValue(24)->required()
+                            ->disabled(fn (Timesheet $record) => $record->where(['status', '!=', 'Draft'])),
                         Hidden::make('status'),
                     ])
             ]);
@@ -54,10 +56,11 @@ class TimesheetResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->hidden(fn (Timesheet $record) => $record->where(['status', '!=', 'Draft'])),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
             ])
             ->defaultSort('date_worked', 'desc');
     }
