@@ -81,8 +81,7 @@ class TimesheetsRelationManager extends RelationManager
 
         $timesheets = $this->ownerRecord->timesheets()->where('status', 'Approved')->get()->sortBy('date_worked');
 
-
-        Mail::to('accounts@mail.net')->send(new Invoicing($timesheets, $this->ownerRecord));
+        Mail::to('accounts@example.com')->send(new Invoicing($timesheets, $this->ownerRecord));
     }
 
     public function getRelationship(): Relation | Builder

@@ -18,17 +18,33 @@ class DatabaseSeeder extends Seeder
         $user = \App\Models\User::factory()->create([
             'name' => 'Talent User',
             'email' => 'talent@example.com',
-            'password' => Hash::make('password')
+            'password' => Hash::make('password'),
+            'role' => 'talent'
         ]);
+        $user->markEmailAsVerified();
 
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Talent User 2',
+            'email' => 'talent2@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'talent'
+        ]);
+        $user->markEmailAsVerified();
+
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Talent User 3',
+            'email' => 'talent3@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'talent'
+        ]);
         $user->markEmailAsVerified();
 
         $user = \App\Models\User::factory()->create([
             'name' => 'Client User',
             'email' => 'client@example.com',
-            'password' => Hash::make('password')
+            'password' => Hash::make('password'),
+            'role' => 'client'
         ]);
-
         $user->markEmailAsVerified();
     }
 }

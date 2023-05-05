@@ -67,7 +67,7 @@ class ListTimesheets extends ListRecords
             ->success()
             ->send(); 
         
-        Mail::to('client@mail.net')->send(new TimesheetSubmitted());
+        Mail::to('client@example.com')->send(new TimesheetSubmitted());
 
     }
 

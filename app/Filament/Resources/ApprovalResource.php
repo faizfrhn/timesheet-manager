@@ -93,4 +93,9 @@ class ApprovalResource extends Resource
             'edit' => Pages\EditApproval::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return static::getModel()::query()->where('role', 'talent');
+    }
 }
