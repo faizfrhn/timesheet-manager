@@ -27,6 +27,11 @@ class ApprovalResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role == 'client';
+    }
+
     public static function form(Form $form): Form
     {
         return $form

@@ -17,10 +17,15 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Validation\Rules\Unique;
 
 class TimesheetResource extends Resource
-{
+{   
     protected static ?string $model = Timesheet::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role == 'talent';
+    }
 
     public static function form(Form $form): Form
     {
