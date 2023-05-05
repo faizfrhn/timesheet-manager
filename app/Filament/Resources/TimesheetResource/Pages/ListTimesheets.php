@@ -5,6 +5,7 @@ namespace App\Filament\Resources\TimesheetResource\Pages;
 use App\Filament\Resources\TimesheetResource;
 use App\Mail\TimesheetSubmitted;
 use Carbon\Carbon;
+use Closure;
 use Filament\Notifications\Notification;
 use Filament\Pages\Actions;
 use Filament\Pages\Actions\Action;
@@ -24,6 +25,11 @@ class ListTimesheets extends ListRecords
                 ->requiresConfirmation()
                 ->disabled(fn () => !$this->checkIfCanSubmit())
         ];
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return null;
     }
 
     protected function checkIfCanSubmit()

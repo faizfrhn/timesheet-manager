@@ -35,10 +35,8 @@ class TimesheetResource extends Resource
                                         ->where('date_worked', $get('date_worked'))
                                         ->where('user_id', auth()->id());
                                 }, ignoreRecord: true)
-                            ->required()
-                            ->disabledOn('edit', fn (Timesheet $record) => $record->where(['status', '!=', 'Draft'])),
-                        Forms\Components\TextInput::make('hours')->numeric()->minValue(0)->maxValue(24)->required()
-                            ->disabledOn('edit', fn (Timesheet $record) => $record->where(['status', '!=', 'Draft'])),
+                            ->required(),
+                        Forms\Components\TextInput::make('hours')->numeric()->minValue(0)->maxValue(24)->required(),
                         Hidden::make('status'),
                     ])
             ]);
@@ -57,7 +55,7 @@ class TimesheetResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn (Timesheet $record) => $record->where(['status', '!=', 'Draft'])),
+                    ->hidden(fn (Timesheet $record) => $record->status !== 'Draft'),
             ])
             ->bulkActions([
                 // Tables\Actions\DeleteBulkAction::make(),

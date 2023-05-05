@@ -15,7 +15,7 @@ class EditTimesheet extends EditRecord
     {
         return [
             Actions\DeleteAction::make()
-                ->hidden(fn (Timesheet $record) => $record->where(['status', '!=', 'Draft'])),
+                ->hidden(fn (Timesheet $record) => $record->status !== 'Draft'),
         ];
     }
 
@@ -23,7 +23,7 @@ class EditTimesheet extends EditRecord
     {
 
         return [
-            $this->getSaveFormAction()->disabled(fn() => $this->getRecord()->where(['status', '!=', 'Draft'])),
+            $this->getSaveFormAction()->disabled(fn() => $this->getRecord()->status !== 'Draft'),
             $this->getCancelFormAction(),
         ];
     }
