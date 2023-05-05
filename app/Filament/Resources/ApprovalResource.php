@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ApprovalResource\Pages;
 use App\Filament\Resources\ApprovalResource\RelationManagers;
 use App\Models\Approval;
+use App\Models\Timesheet;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -41,6 +42,11 @@ class ApprovalResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\BadgeColumn::make('status')
+                    ->getStateUsing(fn (User $record): string => $record->timesheets()->where('status', 'Submitted')->count() ? 'Pending' : 'Approved')
+                    ->colors([
+                        'success' => 'Approved',
+                    ]),
             ])
             ->filters([
                 //
