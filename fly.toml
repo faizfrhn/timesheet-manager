@@ -1,0 +1,28 @@
+# fly.toml app configuration file generated for timesheet-manager on 2023-05-05T23:17:12+08:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "timesheet-manager"
+primary_region = "sin"
+
+[build]
+  [build.args]
+    NODE_VERSION = "18"
+    PHP_VERSION = "8.1"
+
+[env]
+  APP_ENV = "production"
+  LOG_CHANNEL = "stderr"
+  LOG_LEVEL = "info"
+  LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  APP_URL = "https://timesheet-manager.fly.dev"
+  DB_CONNECTION = "mysql"
+  DB_HOST = "sin.tm-fly-mysql.internal"
+  DB_DATABASE= "example_app"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true

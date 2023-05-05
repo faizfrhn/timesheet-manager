@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        $user = \App\Models\User::factory()->create([
+        $user = \App\Models\User::create([
             'name' => 'Talent User',
             'email' => 'talent@example.com',
             'password' => Hash::make('password'),
@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $user->markEmailAsVerified();
 
-        $user = \App\Models\User::factory()->create([
+        $user = \App\Models\User::create([
             'name' => 'Talent User 2',
             'email' => 'talent2@example.com',
             'password' => Hash::make('password'),
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $user->markEmailAsVerified();
 
-        $user = \App\Models\User::factory()->create([
+        $user = \App\Models\User::create([
             'name' => 'Talent User 3',
             'email' => 'talent3@example.com',
             'password' => Hash::make('password'),
@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $user->markEmailAsVerified();
 
-        $user = \App\Models\User::factory()->create([
+        $user = \App\Models\User::create([
             'name' => 'Client User',
             'email' => 'client@example.com',
             'password' => Hash::make('password'),
