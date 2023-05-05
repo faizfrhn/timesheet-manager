@@ -36,7 +36,7 @@ class ListTimesheets extends ListRecords
         $condition = ['user_id' => auth()->id(), ['date_worked', '>=', $startOfWeekDate], ['date_worked', '<=', $endOfWeekDate]];
         $totalHours = static::getModel()::query()->where($condition)->sum('hours');
 
-        $submitCondition = ['user_id' => auth()->id(), ['date_worked', '>=', $startOfWeekDate], ['date_worked', '<=', $endOfWeekDate], ['status', '!=', 'Submitted']];
+        $submitCondition = ['user_id' => auth()->id(), ['date_worked', '>=', $startOfWeekDate], ['date_worked', '<=', $endOfWeekDate], ['status', '=', 'Draft']];
         $submitted = static::getModel()::query()->where($submitCondition)->count();
 
         // can only submit if end of week and total hours for current week is >= 40 hours
