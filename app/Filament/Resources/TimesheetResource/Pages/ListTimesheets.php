@@ -3,11 +3,13 @@
 namespace App\Filament\Resources\TimesheetResource\Pages;
 
 use App\Filament\Resources\TimesheetResource;
+use App\Mail\TimesheetSubmitted;
 use Carbon\Carbon;
 use Filament\Notifications\Notification;
 use Filament\Pages\Actions;
 use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Mail;
 
 class ListTimesheets extends ListRecords
 {
@@ -51,12 +53,16 @@ class ListTimesheets extends ListRecords
         $endOfWeekDate = $date->endOfWeek()->format('Y-m-d');
         $condition = ['user_id' => auth()->id(), ['date_worked', '>=', $startOfWeekDate], ['date_worked', '<=', $endOfWeekDate]];
 
-        static::getModel()::query()->where($condition)->update(['status' => 'Submitted']);
-
+        $timesheet =  static::getModel()::query()->where($condition);
+        $timesheet->update(['status' => 'Submitted']);
+        
         Notification::make() 
             ->title('Weekly timesheet submitted successfully')
             ->success()
             ->send(); 
+        
+        Mail::to('client@mail.net')->send(new TimesheetSubmitted());
+
     }
 
 }
