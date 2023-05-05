@@ -36,9 +36,9 @@ class TimesheetResource extends Resource
                                         ->where('user_id', auth()->id());
                                 }, ignoreRecord: true)
                             ->required()
-                            ->disabled(fn (Timesheet $record) => $record->where(['status', '!=', 'Draft'])),
+                            ->disabledOn('edit', fn (Timesheet $record) => $record->where(['status', '!=', 'Draft'])),
                         Forms\Components\TextInput::make('hours')->numeric()->minValue(0)->maxValue(24)->required()
-                            ->disabled(fn (Timesheet $record) => $record->where(['status', '!=', 'Draft'])),
+                            ->disabledOn('edit', fn (Timesheet $record) => $record->where(['status', '!=', 'Draft'])),
                         Hidden::make('status'),
                     ])
             ]);

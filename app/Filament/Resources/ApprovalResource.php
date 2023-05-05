@@ -43,7 +43,7 @@ class ApprovalResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\BadgeColumn::make('status')
-                    ->getStateUsing(fn (User $record): string => $record->timesheets()->where('status', 'Submitted')->count() ? 'Pending' : 'Approved')
+                    ->getStateUsing(fn (User $record): string => self::getApprovalStatus($record))
                     ->colors([
                         'success' => 'Approved',
                     ]),
@@ -59,6 +59,20 @@ class ApprovalResource extends Resource
             ]);
     }
     
+    public static function getApprovalStatus(User $record)
+    {
+        $status = 'No submissions';
+        $approved = $record->timesheets()->where('status', 'Approved')->count();
+        $submitted = $record->timesheets()->where('status', 'Submitted')->count();
+
+        if($submitted) {
+            $status = 'Pending';
+        } else if ($submitted == 0 && $approved > 0) {
+            $status = 'Approved';
+        }    
+        return $status;
+    }
+
     public static function getRelations(): array
     {
         return [
