@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ApprovalResource\RelationManagers;
 
+use App\Mail\Invoicing;
 use App\Models\Timesheet;
 use Filament\Forms;
 use Filament\Notifications\Notification;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Mail;
 
 class TimesheetsRelationManager extends RelationManager
 {
@@ -76,6 +78,11 @@ class TimesheetsRelationManager extends RelationManager
             ->title('Timesheet approved successfully')
             ->success()
             ->send();
+
+        $timesheets = $this->ownerRecord->timesheets()->where('status', 'Approved')->get()->sortBy('date_worked');
+
+
+        Mail::to('accounts@mail.net')->send(new Invoicing($timesheets, $this->ownerRecord));
     }
 
     public function getRelationship(): Relation | Builder
